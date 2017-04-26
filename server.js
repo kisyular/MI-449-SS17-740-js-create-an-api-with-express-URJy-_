@@ -42,7 +42,7 @@ app.put('/todos/:slug', function (request, response) {
   if (request.body.nameTODO !== undefined) {
     todo.nameTODO = request.body.nameTODO.trim()
   }
-  if (request.body.price !== undefined) {
+  if (request.body.completed !== undefined) {
     todo.completed = request.body.completed.toUpperCase()
   }
   response.redirect('/todos')
