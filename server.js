@@ -33,17 +33,26 @@ app.post('/todos', function (request, response) {
 })
 
 app.delete('/todos/:slug', function (request, response) {
+  if (!todos[request.params.slug]) {
+    response.status(404).end('sorry, no such to do list: ' + request.params.slug)
+    return
+  }
   delete todos[request.params.slug]
   response.redirect('/todos')
 })
 
 app.put('/todos/:slug', function (request, response) {
   var todo = todos[request.params.slug]
-  if (request.body.nameTODO !== undefined) {
-    todo.nameTODO = request.body.nameTODO.trim()
-  }
-  if (request.body.completed !== undefined) {
-    todo.completed = request.body.completed.toUpperCase()
+  if (todo) {
+    if (request.body.nameTODO !== undefined) {
+      todo.nameTODO = request.body.nameTODO.trim()
+    }
+    if (request.body.completed !== undefined) {
+      todo.completed = request.body.completed.toUpperCase()
+    }
+  } else {
+    response.status(404).end('sorry, no such to do list: ' + request.params.slug)
+    return
   }
   response.redirect('/todos')
 })
